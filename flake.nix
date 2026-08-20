@@ -20,6 +20,7 @@
           src = webkit;
 
           patches = [ (builtins.head old.patches) ];
+          buildInputs = old.buildInputs ++ [ final.alsa-lib final.libevent final.libopus ];
           cmakeFlags = old.cmakeFlags ++ [
             "-DENABLE_MEDIA_STREAM=ON"
             "-DENABLE_WEB_RTC=ON"
