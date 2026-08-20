@@ -1,0 +1,46 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1787135253,
+        "narHash": "sha256-RD2kNWCG+Bjo6h+JVjWVNntZs2GtRoeY2xHjts/FNkA=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ffb3c9b700e759be2ef13237c9d8f953b32a1e46",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "webkit": "webkit"
+      }
+    },
+    "webkit": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787200540,
+        "narHash": "sha256-oAZWb8UxjCw6+0jENlOdQIOw1s0n99El4R9d2aM5xNU=",
+        "ref": "refs/heads/main",
+        "rev": "6fbae40455e736badcdd2f44b6062460668866cb",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/WebKit/WebKit.git"
+      },
+      "original": {
+        "ref": "refs/heads/main",
+        "shallow": true,
+        "type": "git",
+        "url": "https://github.com/WebKit/WebKit.git"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

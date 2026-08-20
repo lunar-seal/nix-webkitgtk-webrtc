@@ -1,0 +1,46 @@
+name: Build WebKitGTK with WebRTC
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v6
+      - uses: cachix/install-nix-action@v31
+        with:
+          extra_nix_config: system-features = nixos-test benchmark big-parallel kvm
+      - name: Update WebKitGTK nightly pin
+        if: github.event_name != 'push'
+        run: |
+          nightly=$(curl -L -fsS https://webkitgtk.org/built-products/x86_64/release/nightly/MiniBrowser/LAST-IS)
+          [[ "$nightly" =~ ^MiniBrowser_gtk_([0-9]+)@main\.tar\.xz$ ]]
+          revision="${BASH_REMATCH[1]}@main"
+          commit_url=$(curl -L -fsSI -o /dev/null -w '%{url_effective}' "https://commits.webkit.org/$revision")
+          sha="${commit_url##*/}"
+          [[ "$sha" =~ ^[0-9a-f]{40}$ ]]
+          nix flake lock \
+            --override-input webkit "git+https://github.com/WebKit/WebKit.git?rev=$sha&shallow=1" \
+            --output-lock-file flake.lock
+          git diff --quiet -- flake.lock && exit 0
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -- flake.lock
+          git commit -m "Update WebKit nightly"
+          git push
+      - uses: cachix/cachix-action@v17
+        if: github.event_name == 'push'
+        with:
+          name: webkit2gtk
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - if: github.event_name == 'push'
+        run: nix build --print-build-logs --max-jobs 1 --cores 2
