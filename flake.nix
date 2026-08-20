@@ -23,6 +23,7 @@
           cmakeFlags = old.cmakeFlags ++ [
             "-DENABLE_MEDIA_STREAM=ON"
             "-DENABLE_WEB_RTC=ON"
+            "-DUSE_VULKAN=OFF"
           ];
           postPatch = old.postPatch + ''
             test -d Source/ThirdParty/libwebrtc/Source
