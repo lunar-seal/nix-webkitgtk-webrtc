@@ -20,7 +20,7 @@
           src = webkit;
 
           patches = [ (builtins.head old.patches) ];
-          buildInputs = old.buildInputs ++ [ final.alsa-lib final.libevent final.libopus ];
+          buildInputs = old.buildInputs ++ [ final.alsa-lib final.libevent final.libopus final.libpulseaudio ];
           cmakeFlags = old.cmakeFlags ++ [
             "-DENABLE_MEDIA_STREAM=ON"
             "-DENABLE_WEB_RTC=ON"
@@ -28,6 +28,10 @@
           ];
           postPatch = old.postPatch + ''
             test -d Source/ThirdParty/libwebrtc/Source
+            substituteInPlace Source/ThirdParty/libwebrtc/Source/webrtc/modules/audio_device/linux/alsasymboltable_linux.cc \
+              --replace-fail '"libasound.so.2"' '"${final.lib.getLib final.alsa-lib}/lib/libasound.so.2"'
+            substituteInPlace Source/ThirdParty/libwebrtc/Source/webrtc/modules/audio_device/linux/pulseaudiosymboltable_linux.cc \
+              --replace-fail '"libpulse.so.0"' '"${final.lib.getLib final.libpulseaudio}/lib/libpulse.so.0"'
           '';
 
           meta = old.meta // {
