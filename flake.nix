@@ -29,6 +29,8 @@
           ];
           postPatch = old.postPatch + ''
             test -d Source/ThirdParty/libwebrtc/Source
+            substituteInPlace Source/ThirdParty/libwebrtc/CMakeLists.txt \
+              --replace-fail $'    Source/third_party/crc32c/src/include\n    Source/third_party/libsrtp/config' $'    Source/third_party/crc32c/src/include\n    Source/third_party/libvpx/source/libvpx\n    Source/third_party/libsrtp/config'
             substituteInPlace Source/ThirdParty/libwebrtc/Source/webrtc/modules/audio_device/linux/alsasymboltable_linux.cc \
               --replace-fail '"libasound.so.2"' '"${final.lib.getLib final.alsa-lib}/lib/libasound.so.2"'
             substituteInPlace Source/ThirdParty/libwebrtc/Source/webrtc/modules/audio_device/linux/pulseaudiosymboltable_linux.cc \
