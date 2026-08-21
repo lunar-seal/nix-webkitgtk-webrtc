@@ -20,6 +20,7 @@
           src = webkit;
 
           patches = [ (builtins.head old.patches) ];
+          nativeBuildInputs = old.nativeBuildInputs ++ [ final.nasm ];
           buildInputs = old.buildInputs ++ [ final.alsa-lib final.libevent final.libopus final.libpulseaudio ];
           cmakeFlags = old.cmakeFlags ++ [
             "-DENABLE_MEDIA_STREAM=ON"
