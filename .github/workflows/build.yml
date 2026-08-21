@@ -38,9 +38,7 @@ jobs:
           git commit -m "Update WebKit nightly"
           git push
       - uses: cachix/cachix-action@v17
-        if: github.event_name == 'push'
         with:
           name: webkit2gtk
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-      - if: github.event_name == 'push'
-        run: nix build --print-build-logs --max-jobs 1 --cores 4
+      - run: nix build --print-build-logs --max-jobs 1 --cores 4
