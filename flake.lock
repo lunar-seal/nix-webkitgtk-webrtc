@@ -25,10 +25,10 @@
     "webkit": {
       "flake": false,
       "locked": {
-        "lastModified": 1792903406,
-        "narHash": "sha256-+V+nExu+KBhOOoqiAJ1609QcPgxpZASLIrMbGVjBMys=",
+        "lastModified": 1792987448,
+        "narHash": "sha256-LwlaZfylYMNzYNwuFZvJOVt75WDb6ATwzuM8RO7jOhg=",
         "ref": "refs/heads/main",
-        "rev": "9c5e8c5fc165114f518aa3fd5276f27d848d8ebe",
+        "rev": "2b85a5e547658dfc8cb35eeea8fe8d204afb18d7",
         "shallow": true,
         "type": "git",
         "url": "https://github.com/WebKit/WebKit.git"
